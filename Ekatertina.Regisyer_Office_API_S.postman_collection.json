@@ -1,0 +1,519 @@
+{
+	"info": {
+		"_postman_id": "0358fc42-60d9-4614-b2fe-5493b2b39ead",
+		"name": "Regisyer Office API'S",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38846845"
+	},
+	"item": [
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Change status of application",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Body response is correct\", function () {",
+									"    const body = pm.response.json();",
+									"    pm.expect(body.data.applicationid).to.be.an('number');",
+									"    pm.expect(body.data.citizenid).to.be.an('number');",
+									"    pm.expect(body.data.applicantid).to.be.an('number');",
+									"    pm.expect(body.data.dateofapplication).to.be.an('string');",
+									"    pm.expect(body.data.kindofapplication).to.be.an('string');",
+									"    pm.expect(body.data.statusofapplication).to.be.an('string');",
+									"    pm.expect(body.data.staffid).to.be.an('number');",
+									"})",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"applId\": 31126,\n  \"staffid\": null,\n  \"action\": \"noaction\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}requestProcess",
+							"host": [
+								"{{url}}requestProcess"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create admin user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Body response is correct\", function () {",
+									"    const body = pm.response.json();",
+									"    pm.expect(body.data.staffid).to.be.an('number');",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"dateofbirth\": \"01.21.1990\",\n    \"personalFirstName\": \"иванов\",\n    \"personalLastName\": \"Аркадий\",\n    \"personalMiddleName\": \"Владимирович\",\n    \"personalNumberOfPassport\": \"1234567899\",\n    \"personalPhoneNumber\": \"7894ывамыв\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}sendAdminRequest",
+							"host": [
+								"{{url}}sendAdminRequest"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Create user",
+			"item": [
+				{
+					"name": "Create user Wedding",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Body response is correct\", function () {",
+									"    const body = pm.response.json();",
+									"    pm.expect(body.data.applicantid).to.be.an('number');",
+									"    pm.expect(body.data.citizenid).to.be.an('number');",
+									"    pm.expect(body.data.applicationid).to.be.an('number');",
+									"    pm.expect(body.data.merrigecertificateid).to.be.an('number');",
+									"})",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.test('fieldIsNull', function() {",
+									"const body = pm.request.body.raw;",
+									"const parseBody = JSON.parse(body);",
+									"pm.expect(parseBody).to.have.property('birth_place', null),",
+									"pm.expect(parseBody).to.have.property('birth_mother', null),",
+									"pm.expect(parseBody).to.have.property('birth_father', null),",
+									"pm.expect(parseBody).to.have.property('death_dateOfDeath', null),",
+									"pm.expect(parseBody).to.have.property('death_placeOfDeath', null)",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"mode\": \"wedding\",\n    \"personalLastName\": \"{{$randomLastName}}\",\n    \"personalFirstName\": \"{{$randomFirstName}}\",\n    \"personalMiddleName\": \"{{$randomLastName}}\",\n    \"personalPhoneNumber\": \"{{$randomPhoneNumber}}\",\n    \"personalNumberOfPassport\": \"{{$randomBankAccount}}\",\n    \"citizenLastName\": \"{{$randomLastName}}\",\n    \"citizenFirstName\": \"{{$randomFirstName}}\",\n    \"citizenMiddleName\": \"{{$randomLastName}}\",\n    \"citizenBirthDate\": \"{{$randomDatePast}}\",\n    \"citizenNumberOfPassport\": \"{{$randomBankAccount}}\",\n    \"citizenGender\": \"{{$randomGender}}\",\n    \"dateOfMarriage\": \"{{$randomDateFuture}}\",\n    \"newLastName\": \"{{$randomLastName}}\",\n    \"anotherPersonLastName\": \"{{$randomLastName}}\",\n    \"anotherPersonFirstName\": \"{{$randomFirstName}}\",\n    \"anotherPersonMiddleName\": \"{{$randomFirstName}}\",\n    \"birth_of_anotoherPerson\": \"{{$randomDatePast}}\",\n    \"anotherPersonPassport\": \"{{$randomBankAccount}}\",\n    \"birth_place\": null,\n    \"birth_mother\": null,\n    \"birth_father\": null,\n    \"death_dateOfDeath\": null,\n    \"death_placeOfDeath\": null\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}sendUserRequest",
+							"host": [
+								"{{url}}sendUserRequest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Body response is correct\", function () {",
+									"    const body = pm.response.json();",
+									"    pm.expect(body.data.applicantid).to.be.an('number');",
+									"    pm.expect(body.data.citizenid).to.be.an('number');",
+									"    pm.expect(body.data.applicationid).to.be.an('number');",
+									"    pm.expect(body.data.merrigecertificateid).to.be.an('number');",
+									"})",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.test('fieldIsNull', function() {",
+									"const body = pm.request.body.raw;",
+									"const parseBody = JSON.parse(body);",
+									"pm.expect(parseBody).to.have.property('birth_place', null),",
+									"pm.expect(parseBody).to.have.property('birth_mother', null),",
+									"pm.expect(parseBody).to.have.property('birth_father', null),",
+									"pm.expect(parseBody).to.have.property('death_dateOfDeath', null),",
+									"pm.expect(parseBody).to.have.property('death_placeOfDeath', null)",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"mode\": \"death\",\n    \"personalLastName\": \"Иванов\",\n    \"personalFirstName\": \"Иван\",\n    \"personalMiddleName\": \"Викторович\",\n    \"personalPhoneNumber\": \"89105026963\",\n    \"personalNumberOfPassport\": \"123456789\",\n    \"citizenLastName\": \"Иванов\",\n    \"citizenFirstName\": \"Петр\",\n    \"citizenMiddleName\": \"Викторович\",\n    \"citizenBirthDate\": \"1995-02-02\",\n    \"citizenNumberOfPassport\": \"123456789\",\n    \"citizenGender\": \"мужской\",\n    \"dateOfMarriage\": \"2025-02-02\",\n    \"newLastName\": \"Иванов\",\n    \"anotherPersonLastName\": \"Иванов\",\n    \"anotherPersonFirstName\": \"Иван\",\n    \"anotherPersonMiddleName\": \"Федоров\",\n    \"birth_of_anotoherPerson\": \"1995-02-02\",\n    \"anotherPersonPassport\": \"987654321\",\n    \"birth_place\": \"null\",\n    \"birth_mother\": \"null\",\n    \"birth_father\": \"null\",\n    \"death_dateOfDeath\": \"1995-02-02\",\n    \"death_placeOfDeath\": \"null\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}sendUserRequest",
+							"host": [
+								"{{url}}sendUserRequest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create user Death",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Body response is correct\", function () {",
+									"    const body = pm.response.json();",
+									"    pm.expect(body.data.applicantid).to.be.an('number');",
+									"    pm.expect(body.data.citizenid).to.be.an('number');",
+									"    pm.expect(body.data.applicationid).to.be.an('number');",
+									"    pm.expect(body.data.deathcertificateid).to.be.an('number');",
+									"})",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.test('fieldIsNull', function() {",
+									"const body = pm.request.body.raw;",
+									"const parseBody = JSON.parse(body);",
+									"pm.expect(parseBody).to.have.property('dateOfMarriage', null),",
+									"pm.expect(parseBody).to.have.property('newLastName', null)",
+									"pm.expect(parseBody).to.have.property('anotherPersonLastName', null)",
+									"pm.expect(parseBody).to.have.property('anotherPersonFirstName', null)",
+									"pm.expect(parseBody).to.have.property('anotherPersonMiddleName', null)",
+									"pm.expect(parseBody).to.have.property('birth_of_anotoherPerson', null)",
+									"pm.expect(parseBody).to.have.property('anotherPersonPassport', null)",
+									"pm.expect(parseBody).to.have.property('birth_place', null)",
+									"pm.expect(parseBody).to.have.property('birth_mother', null)",
+									"pm.expect(parseBody).to.have.property('birth_father', null)",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"mode\": \"death\",\n    \"personalLastName\": \"{{$randomLastName}}\",\n    \"personalFirstName\": \"{{$randomFirstName}}\",\n    \"personalMiddleName\": \"{{$randomLastName}}\",\n    \"personalPhoneNumber\": \"{{$randomPhoneNumber}}\",\n    \"personalNumberOfPassport\": \"{{$randomBankAccount}}\",\n    \"citizenLastName\": \"{{$randomLastName}}\",\n    \"citizenFirstName\": \"{{$randomFirstName}}\",\n    \"citizenMiddleName\": \"{{$randomLastName}}\",\n    \"citizenBirthDate\": \"{{$randomDatePast}}\",\n    \"citizenNumberOfPassport\": \"{{$randomBankAccount}}\",\n    \"citizenGender\": \"{{$randomGender}}\",\n    \"dateOfMarriage\": null,\n    \"newLastName\": null,\n    \"anotherPersonLastName\": null,\n    \"anotherPersonFirstName\": null,\n    \"anotherPersonMiddleName\": null,\n    \"birth_of_anotoherPerson\": null,\n    \"anotherPersonPassport\": null,\n    \"birth_place\": null,\n    \"birth_mother\": null,\n    \"birth_father\": null,\n    \"death_dateOfDeath\": \"{{$randomDatePast}}\",\n    \"death_placeOfDeath\": \"{{$randomCity}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}sendUserRequest",
+							"host": [
+								"{{url}}sendUserRequest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create user Birth",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.test('fieldIsNull', function() {",
+									"const body = pm.request.body.raw;",
+									"const parseBody = JSON.parse(body);",
+									"pm.expect(parseBody).to.have.property('dateOfMarriage', null),",
+									"pm.expect(parseBody).to.have.property('newLastName', null),",
+									"pm.expect(parseBody).to.have.property('anotherPersonLastName', null),",
+									"pm.expect(parseBody).to.have.property('anotherPersonFirstName', null),",
+									"pm.expect(parseBody).to.have.property('anotherPersonMiddleName', null),",
+									"pm.expect(parseBody).to.have.property('birth_of_anotoherPerson', null),",
+									"pm.expect(parseBody).to.have.property('anotherPersonPassport', null),",
+									"pm.expect(parseBody).to.have.property('death_dateOfDeath', null),",
+									"pm.expect(parseBody).to.have.property('death_placeOfDeath', null)",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Body response is correct\", function () {",
+									"    const body = pm.response.json();",
+									"    pm.expect(body.data.applicantid).to.be.an('number');",
+									"    pm.expect(body.data.citizenid).to.be.an('number');",
+									"    pm.expect(body.data.applicationid).to.be.an('number');",
+									"    pm.expect(body.data.birthcertificateid).to.be.an('number');",
+									"})",
+									"",
+									"pm.test(\"Verify status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"mode\": \"birth\",\n    \"personalLastName\": \"{{$randomLastName}}\",\n    \"personalFirstName\": \"{{$randomFirstName}}\",\n    \"personalMiddleName\": \"{{$randomLastName}}\",\n    \"personalPhoneNumber\": \"{{$randomPhoneNumber}}\",\n    \"personalNumberOfPassport\": \"{{$randomBankAccount}}\",\n    \"citizenLastName\": \"{{$randomLastName}}\",\n    \"citizenFirstName\": \"{{$randomFirstName}}\",\n    \"citizenMiddleName\": \"{{$randomLastName}}\",\n    \"citizenBirthDate\": \"{{$randomDatePast}}\",\n    \"citizenNumberOfPassport\": \"{{$randomBankAccount}}\",\n    \"citizenGender\": \"{{$randomGender}}\",\n    \"dateOfMarriage\": null,\n    \"newLastName\": null,\n    \"anotherPersonLastName\": null,\n    \"anotherPersonFirstName\": null,\n    \"anotherPersonMiddleName\": null,\n    \"birth_of_anotoherPerson\": null,\n    \"anotherPersonPassport\": null,\n    \"birth_place\": \"{{$randomStreetAddress}}\",\n    \"birth_mother\": \"{{$randomFullName}}\",\n    \"birth_father\": \"{{$randomFullName}}\",\n    \"death_dateOfDeath\": null,\n    \"death_placeOfDeath\": null\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}sendUserRequest",
+							"host": [
+								"{{url}}sendUserRequest"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Application",
+			"item": [
+				{
+					"name": "Get  all applications",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Body response is correct\", function () {",
+									"    const body = pm.response.json();",
+									"    pm.expect(body.data.applicationid).to.be.an('number');",
+									"    pm.expect(body.data.citizenid).to.be.an('number');",
+									"    pm.expect(body.data.applicantid).to.be.an('number');",
+									"    pm.expect(body.data.staffid).to.be.an('number');",
+									"    pm.expect(body.data.dateofapplication).to.be.an('string');",
+									"    pm.expect(body.data.kindofapplication).to.be.an('string');",
+									"    pm.expect(body.data.statusofapplication).to.be.an('string');",
+									"    pm.expect(body.data.channel).to.be.an('string');",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}getApplications",
+							"host": [
+								"{{url}}getApplications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get application with given ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Body response is correct\", function () {",
+									"    const body = pm.response.json();",
+									"    pm.expect(body.data.applicantid).to.be.an('number');",
+									"    pm.expect(body.data.dateofapplication).to.be.an('string');",
+									"    pm.expect(body.data.kindofapplication).to.be.an('string');",
+									"    pm.expect(body.data.channel).to.be.an('string');",
+									"    pm.expect(body.data.statusofapplication).to.be.an('string');",
+									"})",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"packages": {},
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/getApplStatus/31130",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"getApplStatus",
+								"31130"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "username",
+				"value": "user",
+				"type": "string"
+			},
+			{
+				"key": "password",
+				"value": "{{psw}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "psw",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
